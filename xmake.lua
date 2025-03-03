@@ -19,7 +19,11 @@ local Deps =
     "glm",
     "glfw",
 }
-
+if is_mode("debug") then
+    add_defines("DEBUG")
+elseif is_mode("Release") then
+    add_defines("NDEBUG")
+end
 
 target("VulkanRenderer")
     set_kind("binary")

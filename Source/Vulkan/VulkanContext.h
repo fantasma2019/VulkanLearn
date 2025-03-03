@@ -17,17 +17,18 @@ public:
         return instance;
     }
 
+    SharedPtr<VkInstance> CreateInstance();
     SharedPtr<VkSurfaceKHR> CreateSurface(GLFWwindow* window);
     SharedPtr<VkPhysicalDevice> SelectPhysicalDevice();
     SharedPtr<VkDevice> CreateVkDevice();
 
 
-    static VkInstance GetInstance() { return s_VulkanInstance;}
+    SharedPtr<VkInstance> GetInstance() { return s_VulkanInstance;}
     SharedPtr<VkPhysicalDevice> GetPhysicalDevice() { return m_PhysicalDevice;}
     SharedPtr<VkDevice>GetDevice() { return m_Device;}
     SharedPtr<VkSurfaceKHR> GetSurface() { return m_Surface;}
 
-    static void Init();
+    void Init();
 
     VulkanContext();
     ~VulkanContext();
@@ -44,10 +45,17 @@ private:
     SharedPtr<VkPhysicalDevice> m_PhysicalDevice;
     SharedPtr<VkDevice> m_Device;
     SharedPtr<VkSurfaceKHR> m_Surface;
-    inline static VkInstance s_VulkanInstance;
+    SharedPtr<VkInstance> s_VulkanInstance = VK_NULL_HANDLE;
 
     DynamicArray<Str> m_InstanceLayers;
     DynamicArray<Str> m_InstanceExtensions;
 
+    const DynamicArray<Str> m_ValidationLayers {"VK_LAYER_KHRONOS_validation"};
+    const DynamicArray<Str> m_DeviceExtensions {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
+#ifdef NDEBUG
+    const bool m_EnableValidationLayers = false;
+#else
+    const bool m_EnableValidationLayers = true;
+#endif
 };

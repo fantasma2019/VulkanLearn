@@ -1,7 +1,96 @@
 ﻿#include "vkpch.h"
 #include "VulkanContext.h"
 
+VulkanContext::VulkanContext()
+    : m_PhysicalDevice(VK_NULL_HANDLE), m_Device(VK_NULL_HANDLE), m_Surface(VK_NULL_HANDLE)
+{
+}
+VulkanContext::~VulkanContext()
+{
+    if (m_Device != VK_NULL_HANDLE)
+        vkDestroyDevice(*m_Device, nullptr);
+    if (m_Surface != VK_NULL_HANDLE)
+        vkDestroySurfaceKHR(s_VulkanInstance,*m_Surface,nullptr);
+    if (s_VulkanInstance != VK_NULL_HANDLE)
+        vkDestroyInstance(s_VulkanInstance, nullptr);
+}
+
+SharedPtr<VkInstance> VulkanContext::CreateInstance()
+{
+    // 检查验证层
+    if (m_EnableValidationLayers && !CheckValidationLayerSupport())
+    {
+        throw std::runtime_error("Validation layers requested, but not available!");
+    }
+
+    // 应用信息
+    VkApplicationInfo appInfo{};
+    appInfo.sType              = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.pApplicationName   = "VulkanRenderer";
+    appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+    appInfo.pEngineName        = "No Engine";
+    appInfo.engineVersion      = VK_MAKE_VERSION(1, 0, 0);
+    appInfo.apiVersion         = VK_API_VERSION_1_2;
+
+    // 创建信息
+    VkInstanceCreateInfo createInfo{};
+    createInfo.sType               = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    createInfo.pApplicationInfo    = &appInfo;
+
+    // 拓展
+    const auto extension = GetRequiredExtensions();
+    createInfo.enabledExtensionCount      = static_cast<uint32_t>(extension.size());
+    createInfo.ppEnabledExtensionNames    = extension.data();
+
+    // 验证层
+    if (m_EnableValidationLayers)
+    {
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(m_ValidationLayers.size());
+        createInfo.ppEnabledLayerNames   = m_ValidationLayers.data();
+    }
+    else
+        createInfo.enabledExtensionCount = 0;
+
+    VK_CHECK(vkCreateInstance(&createInfo, nullptr, &*s_VulkanInstance));
+
+
+}
+
 SharedPtr<VkDevice> VulkanContext::CreateVkDevice()
+{
+}
+
+
+
+SharedPtr<VkSurfaceKHR> VulkanContext::CreateSurface(GLFWwindow* window)
+{
+}
+
+SharedPtr<VkPhysicalDevice> VulkanContext::SelectPhysicalDevice()
+{
+}
+
+SharedPtr<VkDevice> VulkanContext::CreateVkDevice()
+{
+}
+
+
+
+
+
+bool VulkanContext::CheckValidationLayerSupport()
+{
+}
+
+DynamicArray<Str> VulkanContext::GetRequiredExtensions()
+{
+}
+
+bool VulkanContext::CheckDeviceExtensionSupport(VkPhysicalDevice device)
+{
+}
+
+bool VulkanContext::IsDeviceSuitable(VkPhysicalDevice device)
 {
 }
 
@@ -32,9 +121,4 @@ void VulkanContext::Init()
 
     std::vector<const char*> instanceExtensions { VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME};
 
-}
-
-VulkanContext::VulkanContext()
-{
-    Init();
 }

@@ -24,6 +24,7 @@ target_include_directories(VulkanRenderer SYSTEM PRIVATE
     C:/Users/Administrator/AppData/Local/.xmake/packages/g/glfw/3.3.8/5aa939de69104b4e80d43709f8b47425/include
 )
 target_compile_definitions(VulkanRenderer PRIVATE
+    DEBUG
     GLFW_INCLUDE_NONE
 )
 target_compile_options(VulkanRenderer PRIVATE

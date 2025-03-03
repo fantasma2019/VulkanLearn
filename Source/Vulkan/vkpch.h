@@ -39,13 +39,13 @@
 #define PL_ASSERT(x, ...) {if(!(x)) {std::cout << std::format("Assert Error : ", __VA_ARGS__, "\n"); __debugbreak();}}
 
 #ifdef NDEBUG
-    #define VL_CHECK(x) x
+    #define VK_CHECK(x) x
 #else
-    #define VL_CHECK(x) \
+    #define VK_CHECK(x) \
         do { \
-            VkResult err = x; \
-            if (err) { \
-                std::cerr << std::format("Vulkan Error : {}\n", err); \
+            VkResult error = x;
+            if (error) { \
+                std::cout << std::format("Assert Error : ", __VA_ARGS__, "\n"); \
                 __debugbreak(); \
             } \
         } while (0)

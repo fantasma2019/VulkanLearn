@@ -11,3 +11,6 @@ build/
 # Build Cache
 cmake-build-debug/
 cmake-build-release/
+
+#doxygen
+docs/

@@ -27,6 +27,8 @@ public:
     void OnUpdate();
     void Init();
 
+    GLFWwindow* GetWindow() const {return m_Window;}
+
 private:
     void Shutdown();
 private:

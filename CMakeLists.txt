@@ -8,7 +8,11 @@ cmake_policy(SET CMP0091 NEW)
 project(VulkanRenderer LANGUAGES CXX)
 
 # target
-add_executable(VulkanRenderer "")
+add_executable(VulkanRenderer ""
+        Source/Vulkan/VulkanRenderer.cpp
+        Source/Vulkan/VulkanRenderer.h
+        Source/Vulkan/VulkanRenderPass.cpp
+        Source/Vulkan/VulkanRenderPass.h)
 set_target_properties(VulkanRenderer PROPERTIES OUTPUT_NAME "VulkanRenderer")
 set_target_properties(VulkanRenderer PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
 target_precompile_headers(VulkanRenderer PRIVATE
@@ -78,4 +82,3 @@ target_sources(VulkanRenderer PRIVATE
     Source/Vulkan/VulkanContext.h
     Source/Vulkan/VulkanWindow.h
 )
-

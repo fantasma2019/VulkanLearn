@@ -88,6 +88,9 @@ template<typename K, typename V>
 constexpr Pair<K, V> MakePair(K&& key, V&& value){
     return std::make_pair(std::forward<K>(key), std::forward<V>(value));}
 
+template<typename T>
+using Optional = std::optional<T>;
+
 /** ---------------------------智能指针-------------------------*/
 
 template<typename T >

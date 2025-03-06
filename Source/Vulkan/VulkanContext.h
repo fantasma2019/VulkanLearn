@@ -50,16 +50,16 @@ public:
     }
 
     /** 创建Vulkan实例 */
-    VkInstance CreateInstance();
+    void CreateInstance();
 
     /** 创建Vulkan表面 */
-    VkSurfaceKHR CreateSurface(GLFWwindow* window);
+    void CreateSurface(GLFWwindow* window);
 
     /** 选择物理设备 */
-    VkPhysicalDevice SelectPhysicalDevice();
+    void SelectPhysicalDevice();
 
     /** 创建逻辑设备 */
-    VkDevice CreateLogicalDevice();
+    void CreateLogicalDevice();
 
     /** 寻找队列族索引*/
     QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device) const;
@@ -70,13 +70,13 @@ public:
     // Getter
 
     /** 获取Vulkan实例 */
-    SharedPtr<VkInstance> GetInstance() { return s_VulkanInstance;}
+    VkInstance GetInstance() { return s_VulkanInstance;}
     /** 获取物理设备 */
-    SharedPtr<VkPhysicalDevice> GetPhysicalDevice() { return m_PhysicalDevice;}
+    VkPhysicalDevice GetPhysicalDevice() { return m_PhysicalDevice;}
     /** 获取逻辑设备 */
-    SharedPtr<VkDevice>GetDevice() { return m_Device;}
+    VkDevice GetDevice() { return m_Device;}
     /** 获取表面*/
-    SharedPtr<VkSurfaceKHR> GetSurface() { return m_Surface;}
+    VkSurfaceKHR GetSurface() { return m_Surface;}
     /** 获取图形队列*/
     VkQueue GetGraphicsQueue() const { return m_GraphicsQueue;}
 
@@ -94,7 +94,7 @@ private:
     /** 检查验证层支持*/
     bool CheckValidationLayerSupport();
     /** 获取所需扩展*/
-    DynamicArray<Str> GetRequiredExtensions();
+    DynamicArray<Str> GetRequiredExtensions() const;
     /** 检查设备扩展支持*/
     bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
     /** 检查设备是否适合*/

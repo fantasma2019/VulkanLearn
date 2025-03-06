@@ -1,6 +1,6 @@
-﻿#include "VulkanSwapChain.h"
+﻿#include "vkpch.h"
+#include "VulkanSwapChain.h"
 
-namespace Vulkan {
 
 VulkanSwapChain::VulkanSwapChain(VulkanContext* context)
     : context(context)
@@ -18,7 +18,7 @@ void VulkanSwapChain::Create(GLFWwindow* window) {
     currentWindow = window;
 
     // 查询交换链支持
-    SwapChainSupportDetails swapChainSupport = context->QuerySwapChainSupport(context->GetPhysicalDevice());
+    SwapChainSupportDetails swapChainSupport = context->QuerySwapChainSupportDetails(context->GetPhysicalDevice());
 
     // 选择表面格式、显示模式和交换范围
     VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
@@ -26,7 +26,7 @@ void VulkanSwapChain::Create(GLFWwindow* window) {
     VkExtent2D extent = ChooseSwapExtent(swapChainSupport.capabilities, window);
 
     // 确定图像数量
-    uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+    u32 imageCount = swapChainSupport.capabilities.minImageCount + 1;
     if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) {
         imageCount = swapChainSupport.capabilities.maxImageCount;
     }
@@ -44,7 +44,7 @@ void VulkanSwapChain::Create(GLFWwindow* window) {
 
     // 处理不同队列族
     QueueFamilyIndices indices = context->FindQueueFamilies(context->GetPhysicalDevice());
-    uint32_t queueFamilyIndices[] = {indices.graphicsFamily.value(), indices.presentFamily.value()};
+    u32 queueFamilyIndices[] = {indices.graphicsFamily.value(), indices.presentFamily.value()};
 
     if (indices.graphicsFamily != indices.presentFamily) {
         createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
@@ -105,7 +105,7 @@ void VulkanSwapChain::Cleanup() {
     imageViews.clear();
 }
 
-VkResult VulkanSwapChain::AcquireNextImage(uint32_t* imageIndex, VkSemaphore signalSemaphore) {
+VkResult VulkanSwapChain::AcquireNextImage(u32* imageIndex, VkSemaphore signalSemaphore) {
     VkResult result = vkAcquireNextImageKHR(
         context->GetDevice(),
         swapChain,
@@ -122,12 +122,12 @@ VkResult VulkanSwapChain::AcquireNextImage(uint32_t* imageIndex, VkSemaphore sig
     return result;
 }
 
-VkResult VulkanSwapChain::GetCurrentImageIndex(uint32_t* imageIndex) {
+VkResult VulkanSwapChain::GetCurrentImageIndex(u32* imageIndex) {
     *imageIndex = currentImageIndex;
     return VK_SUCCESS;
 }
 
-VkResult VulkanSwapChain::PresentImage(uint32_t imageIndex, VkSemaphore* waitSemaphores, uint32_t waitSemaphoreCount) {
+VkResult VulkanSwapChain::PresentImage(u32 imageIndex, VkSemaphore* waitSemaphores, u32 waitSemaphoreCount) {
     VkPresentInfoKHR presentInfo{};
     presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
     presentInfo.waitSemaphoreCount = waitSemaphoreCount;
@@ -142,7 +142,7 @@ VkResult VulkanSwapChain::PresentImage(uint32_t imageIndex, VkSemaphore* waitSem
     return vkQueuePresentKHR(context->GetPresentQueue(), &presentInfo);
 }
 
-VkSurfaceFormatKHR VulkanSwapChain::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
+VkSurfaceFormatKHR VulkanSwapChain::ChooseSwapSurfaceFormat(const DynamicArray<VkSurfaceFormatKHR>& availableFormats) {
     // 寻找首选格式
     for (const auto& availableFormat : availableFormats) {
         if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
@@ -155,7 +155,7 @@ VkSurfaceFormatKHR VulkanSwapChain::ChooseSwapSurfaceFormat(const std::vector<Vk
     return availableFormats[0];
 }
 
-VkPresentModeKHR VulkanSwapChain::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
+VkPresentModeKHR VulkanSwapChain::ChooseSwapPresentMode(const DynamicArray<VkPresentModeKHR>& availablePresentModes) {
     // 寻找首选模式
     for (const auto& availablePresentMode : availablePresentModes) {
         if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
@@ -177,8 +177,8 @@ VkExtent2D VulkanSwapChain::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& cap
         glfwGetFramebufferSize(window, &width, &height);
 
         VkExtent2D actualExtent = {
-            static_cast<uint32_t>(width),
-            static_cast<uint32_t>(height)
+            static_cast<u32>(width),
+            static_cast<u32>(height)
         };
 
         // 限制在最大和最小范围内
@@ -213,5 +213,3 @@ void VulkanSwapChain::CreateImageViews() {
         VK_CHECK(vkCreateImageView(context->GetDevice(), &createInfo, nullptr, &imageViews[i]));
     }
 }
-
-} // namespace Vulkan

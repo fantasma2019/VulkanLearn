@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "VulkanContext.h"
 
-namespace Vulkan {
-
     class VulkanRenderPass {
     public:
         VulkanRenderPass(VulkanContext* context);
@@ -22,5 +20,3 @@ namespace Vulkan {
         VulkanContext* context;
         VkRenderPass renderPass;
     };
-
-} // namespace Vulkan

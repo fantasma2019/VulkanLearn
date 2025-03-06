@@ -1,7 +1,5 @@
 ﻿#include "VulkanRenderPass.h"
 
-namespace Vulkan {
-
 VulkanRenderPass::VulkanRenderPass(VulkanContext* context)
     : context(context)
     , renderPass(VK_NULL_HANDLE)
@@ -57,5 +55,3 @@ void VulkanRenderPass::Create(VkFormat swapChainImageFormat) {
 
     VK_CHECK(vkCreateRenderPass(context->GetDevice(), &renderPassInfo, nullptr, &renderPass));
 }
-
-} // namespace Vulkan

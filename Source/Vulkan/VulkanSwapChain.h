@@ -1,7 +1,6 @@
 ﻿#pragma once
+#include "BaseType.h"
 #include "VulkanContext.h"
-
-namespace Vulkan {
 
     class VulkanSwapChain {
     public:
@@ -22,26 +21,26 @@ namespace Vulkan {
         void Cleanup();
 
         // 获取下一个图像
-        VkResult AcquireNextImage(uint32_t* imageIndex, VkSemaphore signalSemaphore);
+        VkResult AcquireNextImage(u32* imageIndex, VkSemaphore signalSemaphore);
 
         // 获取当前图像索引
-        VkResult GetCurrentImageIndex(uint32_t* imageIndex);
+        VkResult GetCurrentImageIndex(u32* imageIndex);
 
         // 显示图像
-        VkResult PresentImage(uint32_t imageIndex, VkSemaphore* waitSemaphores, uint32_t waitSemaphoreCount);
+        VkResult PresentImage(u32 imageIndex, VkSemaphore* waitSemaphores, u32 waitSemaphoreCount);
 
         // 获取访问器
         VkFormat GetImageFormat() const { return imageFormat; }
         VkExtent2D GetExtent() const { return extent; }
-        uint32_t GetImageCount() const { return static_cast<uint32_t>(images.size()); }
-        const std::vector<VkImageView>& GetImageViews() const { return imageViews; }
+        u32 GetImageCount() const { return static_cast<u32>(images.size()); }
+        const DynamicArray<VkImageView>& GetImageViews() const { return imageViews; }
 
     private:
         // 选择交换链表面格式
-        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const DynamicArray<VkSurfaceFormatKHR>& availableFormats);
 
         // 选择交换链显示模式
-        VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+        VkPresentModeKHR ChooseSwapPresentMode(const DynamicArray<VkPresentModeKHR>& availablePresentModes);
 
         // 选择交换链尺寸
         VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window);
@@ -53,14 +52,12 @@ namespace Vulkan {
         VulkanContext* context;
 
         VkSwapchainKHR swapChain;
-        std::vector<VkImage> images;
-        std::vector<VkImageView> imageViews;
+        DynamicArray<VkImage> images;
+        DynamicArray<VkImageView> imageViews;
         VkFormat imageFormat;
         VkExtent2D extent;
 
-        uint32_t currentImageIndex;
+        u32 currentImageIndex;
 
         GLFWwindow* currentWindow;
     };
-
-} // namespace Vulkan

@@ -8,24 +8,17 @@ cmake_policy(SET CMP0091 NEW)
 project(VulkanRenderer LANGUAGES CXX)
 
 # target
-add_executable(VulkanRenderer ""
-        Source/Vulkan/VulkanRenderer.cpp
-        Source/Vulkan/VulkanRenderer.h
-        Source/Vulkan/VulkanRenderPass.cpp
-        Source/Vulkan/VulkanRenderPass.h)
+add_executable(VulkanRenderer "")
 set_target_properties(VulkanRenderer PROPERTIES OUTPUT_NAME "VulkanRenderer")
 set_target_properties(VulkanRenderer PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
-target_precompile_headers(VulkanRenderer PRIVATE
-    $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/build/.gens/VulkanRenderer/windows/x64/debug/Source/Vulkan/vkpch.h>
-)
 target_include_directories(VulkanRenderer PRIVATE
     Source/ThirdParty/VulkanSDK/include
     Source/ThirdParty
 )
 target_include_directories(VulkanRenderer SYSTEM PRIVATE
-    C:/Users/Administrator/AppData/Local/.xmake/packages/s/spdlog/v1.15.0/1b3bf62e23e242dea2182406def4130f/include
-    C:/Users/Administrator/AppData/Local/.xmake/packages/g/glm/1.0.1/a2eb08b6b8134255a6ae43c14de1bf8d/include
-    C:/Users/Administrator/AppData/Local/.xmake/packages/g/glfw/3.3.8/5aa939de69104b4e80d43709f8b47425/include
+    C:/Users/admin/AppData/Local/.xmake/packages/s/spdlog/v1.15.0/1b3bf62e23e242dea2182406def4130f/include
+    C:/Users/admin/AppData/Local/.xmake/packages/g/glm/1.0.1/a2eb08b6b8134255a6ae43c14de1bf8d/include
+    C:/Users/admin/AppData/Local/.xmake/packages/g/glfw/3.3.8/5aa939de69104b4e80d43709f8b47425/include
 )
 target_compile_definitions(VulkanRenderer PRIVATE
     DEBUG
@@ -60,6 +53,7 @@ if(MSVC)
         MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 target_link_libraries(VulkanRenderer PRIVATE
+    vulkan-1
     glfw3
     opengl32
     user32
@@ -68,17 +62,22 @@ target_link_libraries(VulkanRenderer PRIVATE
 )
 target_link_directories(VulkanRenderer PRIVATE
     Source/ThirdParty/VulkanSDK/Lib
-    C:/Users/Administrator/AppData/Local/.xmake/packages/g/glfw/3.3.8/5aa939de69104b4e80d43709f8b47425/lib
+    C:/Users/admin/AppData/Local/.xmake/packages/g/glfw/3.3.8/5aa939de69104b4e80d43709f8b47425/lib
 )
 target_sources(VulkanRenderer PRIVATE
     Source/Vulkan/Vulkan.cpp
     Source/Vulkan/VulkanContext.cpp
+    Source/Vulkan/VulkanRenderPass.cpp
+    Source/Vulkan/VulkanSwapChain.cpp
     Source/Vulkan/VulkanWindow.cpp
     Source/main.cpp
     Source/stb_image.cpp
     Source/Vulkan/BaseType.h
-    Source/Vulkan/vkpch.h
     Source/Vulkan/Vulkan.h
     Source/Vulkan/VulkanContext.h
+    Source/Vulkan/VulkanRenderPass.h
+    Source/Vulkan/VulkanSwapChain.h
+    Source/Vulkan/VulkanUtils.h
     Source/Vulkan/VulkanWindow.h
 )
+

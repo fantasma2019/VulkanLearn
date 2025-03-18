@@ -1,5 +1,15 @@
 ﻿#pragma once
-#include <vulkan/vulkan.h>
+
+#define VK_USE_PLATFORM_WIN32_KHR
+
+#if defined(USE_VOLK)
+    #define VOLK_IMPLEMENTATION
+    #include <Volk/volk.h>
+#else
+    #include <vulkan/vulkan.h>
+    #define VK_EXPORTED_FUNCTION(func) extern PFN_##func func;
+#endif
+
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 

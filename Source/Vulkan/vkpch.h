@@ -29,24 +29,7 @@
 
 #include <stb/stb_image.h>
 
-#ifdef _WIN32
 #define VK_USE_PLATFORM_WIN32_KHR
 #define NOMINMAX
-#pragma comment (lib, "vulkan-1.lib")
-#endif
+
 #include <vulkan/vulkan.h>
-
-#define PL_ASSERT(x, ...) {if(!(x)) {std::cout << std::format("Assert Error : ", __VA_ARGS__, "\n"); __debugbreak();}}
-
-#ifdef NDEBUG
-    #define VK_CHECK(x) x
-#else
-    #define VK_CHECK(x) \
-        do { \
-            VkResult error = x;
-            if (error) { \
-                std::cout << std::format("Assert Error : ", __VA_ARGS__, "\n"); \
-                __debugbreak(); \
-            } \
-        } while (0)
-#endif

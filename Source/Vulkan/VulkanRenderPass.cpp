@@ -53,5 +53,5 @@ void VulkanRenderPass::Create(VkFormat swapChainImageFormat) {
     renderPassInfo.dependencyCount = 1;
     renderPassInfo.pDependencies = &dependency;
 
-    VK_CHECK(vkCreateRenderPass(context->GetDevice(), &renderPassInfo, nullptr, &renderPass));
+    vkCreateRenderPass(context->GetDevice(), &renderPassInfo, nullptr, &renderPass);
 }

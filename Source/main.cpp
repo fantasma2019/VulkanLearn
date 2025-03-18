@@ -562,8 +562,8 @@ public:
 
     void CreateGraphicsPipeline() {
         // 加载着色器
-        auto vertShaderCode = ReadFile("D:/Code/VulkanLearn/shaders/vert.spv");
-        auto fragShaderCode = ReadFile("D:/Code/VulkanLearn/shaders/frag.spv");
+        auto vertShaderCode = ReadFile("Z:/Code/VulkanLearn/shaders/vert.spv");
+        auto fragShaderCode = ReadFile("Z:/Code/VulkanLearn/shaders/frag.spv");
 
         VkShaderModule vertShaderModule = CreateShaderModule(vertShaderCode);
         VkShaderModule fragShaderModule = CreateShaderModule(fragShaderCode);

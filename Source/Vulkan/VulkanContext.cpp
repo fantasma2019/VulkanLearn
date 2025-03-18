@@ -1,5 +1,6 @@
-﻿#include "vkpch.h"
-#include "VulkanContext.h"
+﻿#include "VulkanContext.h"
+
+#include "VulkanUtils.h"
 
 VulkanContext::VulkanContext()
     : m_PhysicalDevice(VK_NULL_HANDLE), m_Device(VK_NULL_HANDLE), m_Surface(VK_NULL_HANDLE)

@@ -1,7 +1,7 @@
-﻿#include "vkpch.h"
-#include "VulkanWindow.h"
+﻿#include "VulkanWindow.h"
 
 #include "BaseType.h"
+#include "VulkanUtils.h"
 
 Window::Window(const WindowInitData& initData)
     : m_InitData(initData)
@@ -23,7 +23,7 @@ void Window::DisFPSToTitle()
     static auto lastTime = glfwGetTime();
     static double time;
     static double timeStep;
-    static u_int cumFrame = -1;
+    static uint cumFrame = -1;
     time = glfwGetTime();
     cumFrame++;
     if ((timeStep = time - lastTime) >= 1.0)

@@ -1,11 +1,12 @@
 ﻿#pragma once
+#include "BaseType.h"
 #include "Vulkan.h"
 
 struct WindowInitData
 {
-    std::string_view Title  = "VulkanRenderer";
-    u_int Width       = 1280;
-    u_int Height      = 720;
+    StringView Title  = "VulkanRenderer";
+    uint Width        = 1280;
+    uint Height       = 720;
     bool Decorated    = true;
     bool FullScreen   = false;
     bool VSync        = true;

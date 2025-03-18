@@ -8,7 +8,7 @@ set_toolchains("msvc")
 --lib--
 add_requires("spdlog >= 1.15.0", "glm", "glfw >= 3.3.8")
 
-local Linkdirs =
+local includedirs =
 {
     "Source/ThirdParty/VulkanSDK/include",
     "Source/ThirdParty",
@@ -27,10 +27,10 @@ end
 
 target("VulkanRenderer")
     set_kind("binary")
-    add_includedirs(Linkdirs)
+    add_includedirs(includedirs)
     add_packages(Deps)
     add_linkdirs("Source/ThirdParty/VulkanSDK/Lib")
-
+    add_links("vulkan-1")
     set_pcxxheader("Source/Vulkan/vkpch.h")
 
     add_headerfiles("Source/Vulkan/**.h")

@@ -1,4 +1,5 @@
-﻿#include <algorithm>
+﻿#pragma once
+#include <algorithm>
 #include <any>
 #include <cassert>
 #include <chrono>

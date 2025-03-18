@@ -1,6 +1,6 @@
-﻿#include "vkpch.h"
-#include "VulkanSwapChain.h"
-
+﻿#include "VulkanSwapChain.h"
+#include "VulkanUtils.h"
+#include <algorithm>
 
 VulkanSwapChain::VulkanSwapChain(VulkanContext* context)
     : context(context)
@@ -181,6 +181,10 @@ VkExtent2D VulkanSwapChain::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& cap
             static_cast<u32>(height)
         };
 
+#ifdef max
+#undef max
+#undef min
+#endif
         // 限制在最大和最小范围内
         actualExtent.width = std::max(capabilities.minImageExtent.width,
                              std::min(capabilities.maxImageExtent.width, actualExtent.width));

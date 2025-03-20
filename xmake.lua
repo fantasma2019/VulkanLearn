@@ -5,6 +5,30 @@ set_project("VulkanRenderer")
 set_languages("c++20")
 set_toolchains("msvc")
 
+local projectdir = os.projectdir()
+local vulkan_sdk_path = os.getenv("VULKAN_SDK") or "Engine/Source/ThirdParty/VulkanSDK"
+
+if is_mode("debug") then
+    add_defines("DEBUG", "PL_DEBUG")
+
+elseif is_mode("release") then
+    add_defines("RELEASE", "PL_RELEASE","NDEBUG")
+end
+
+if is_plat("windows") then
+    add_defines("WINDOWS")
+    add_defines("PL_PLAT_WINDOWS")
+    projectdir = projectdir:gsub("\\", "/")
+    add_defines("PL_WORK_DIR=\"" .. projectdir .. "\"")
+
+elseif is_plat("linux") then
+    add_defines("PL_PLAT_LINUX")
+    add_defines("PL_WORK_DIR=\"" .. projectdir .. "\"")
+
+elseif is_plat("macosx") then
+    add_defines("PL_PLAT_MACOSX")
+    add_defines("PL_WORK_DIR=\"" .. projectdir .. "\"")
+end
 --lib--
 add_requires("spdlog >= 1.15.0", "glm", "glfw >= 3.3.8")
 
@@ -13,29 +37,34 @@ local includedirs =
     "Source/ThirdParty/VulkanSDK/include",
     "Source/ThirdParty",
 }
-local Deps =
-{
-    "spdlog",
-    "glm",
-    "glfw",
-}
-if is_mode("debug") then
-    add_defines("DEBUG")
-elseif is_mode("Release") then
-    add_defines("NDEBUG")
-end
+
+local Deps = { "spdlog", "glm", "glfw", }
 
 target("VulkanRenderer")
     set_kind("binary")
     add_includedirs(includedirs)
     add_packages(Deps)
-    add_linkdirs("Source/ThirdParty/VulkanSDK/Lib")
-    add_links("vulkan-1")
+
     set_pcxxheader("Source/Vulkan/vkpch.h")
 
     add_headerfiles("Source/Vulkan/**.h")
     add_files("Source/Vulkan/**.cpp")
     add_files("Source/*.cpp")
+
+if is_plat("windows") then
+    add_defines("VK_USE_PLATFORM_WIN32_KHR")
+    add_linkdirs("Source/ThirdParty/VulkanSDK/Lib")
+    add_links("vulkan-1")
+elseif is_plat("linux") then
+    add_defines("VK_USE_PLATFORM_XCB_KHR")
+    add_linkdirs("/usr/lib")
+    add_links("vulkan")
+elseif is_plat("macosx") then
+    add_defines("VK_USE_PLATFORM_METAL_EXT")
+    add_frameworks("Metal", "Foundation", "Cocoa", "QuartzCore")
+    add_linkdirs("/usr/local/lib")
+    add_links("vulkan")
+end
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io

@@ -11,17 +11,18 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-#include "Vulkan/BaseType.h"
+#include "Vulkan/Core/BaseType.h"
 #include "Vulkan/VulkanWindow.h"
+#include "Vulkan/Core/FileSystem.h"
 
 #undef NDEBUG
 
 // 着色器字节码读取函数
-static std::vector<char> ReadFile(const std::string& filename) {
-    std::ifstream file(filename, std::ios::ate | std::ios::binary);
+static std::vector<char> ReadFile(const File::Path& filePath) {
+    std::ifstream file(filePath, std::ios::ate | std::ios::binary);
 
     if (!file.is_open()) {
-        throw std::runtime_error("无法打开文件：" + filename);
+        throw std::runtime_error("无法打开文件：" + filePath.string());
     }
 
     size_t fileSize = (size_t)file.tellg();
@@ -562,8 +563,8 @@ public:
 
     void CreateGraphicsPipeline() {
         // 加载着色器
-        auto vertShaderCode = ReadFile("Z:/Code/VulkanLearn/shaders/vert.spv");
-        auto fragShaderCode = ReadFile("Z:/Code/VulkanLearn/shaders/frag.spv");
+        auto vertShaderCode = ReadFile(CastToProjectPath("Asset/Shader/vert.spv"));
+        auto fragShaderCode = ReadFile(CastToProjectPath("Asset/Shader/frag.spv"));
 
         VkShaderModule vertShaderModule = CreateShaderModule(vertShaderCode);
         VkShaderModule fragShaderModule = CreateShaderModule(fragShaderCode);

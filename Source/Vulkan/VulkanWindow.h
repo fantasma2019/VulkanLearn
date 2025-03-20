@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BaseType.h"
+#include "Core/BaseType.h"
 #include "Vulkan.h"
 
 struct WindowInitData

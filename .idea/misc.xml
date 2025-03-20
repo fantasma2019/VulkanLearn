@@ -4,4 +4,12 @@
     <option name="pythonIntegrationState" value="YES" />
   </component>
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="CidrRootsConfiguration">
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/.vscode" />
+      <file path="$PROJECT_DIR$/.xmake" />
+      <file path="$PROJECT_DIR$/build" />
+      <file path="$PROJECT_DIR$/docs" />
+    </excludeRoots>
+  </component>
 </project>

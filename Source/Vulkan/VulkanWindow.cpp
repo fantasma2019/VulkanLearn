@@ -1,6 +1,6 @@
 ﻿#include "VulkanWindow.h"
 
-#include "BaseType.h"
+#include "Core/BaseType.h"
 #include "VulkanUtils.h"
 
 Window::Window(const WindowInitData& initData)

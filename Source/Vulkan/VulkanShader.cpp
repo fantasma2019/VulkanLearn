@@ -1,10 +1,29 @@
 ﻿#include "VulkanShader.h"
 
-Shader::Shader(File::Path path)
+Shader::Shader(const File::Path& path)
 {
+    const auto extension = path.extension().string();
 
-    std::filesystem::
+    if (extension == ".glsl")
+    {
+        // 先编译成二进制
 
+        // 再读取
+    }
+    else if (extension == ".hlsl")
+    {
+        // 先编译成二进制
+
+        // 再读取
+    }
+    else if (extension == ".spv")
+    {
+        // 读取
+    }
+    else
+    {
+        throw std::runtime_error("Unsupported shader file extension");
+    }
 }
 
 Shader::Shader(const String& code)

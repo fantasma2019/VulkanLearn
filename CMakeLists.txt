@@ -80,7 +80,7 @@ target_sources(VulkanRenderer PRIVATE
     Source/Vulkan/VulkanRenderPass.cpp
     Source/Vulkan/VulkanSwapChain.cpp
     Source/Vulkan/VulkanWindow.cpp
-    Source/main.cpp
+        Source/Samples/1_Triangle/main.cpp
     Source/stb_image.cpp
     Source/Vulkan/Core/BaseType.h
     Source/Vulkan/Core/FileSystem.h

@@ -5,7 +5,7 @@
 class Shader
 {
 public:
-    Shader(File::Path path);
+    Shader(const File::Path& path);
     Shader(const String& code);
     ~Shader();
 };

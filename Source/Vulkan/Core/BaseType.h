@@ -1,30 +1,16 @@
 ﻿#pragma once
-#include <algorithm>
+
 #include <any>
-#include <cassert>
 #include <chrono>
-#include <concepts>
-#include <filesystem>
-#include <format>
-#include <fstream>
 #include <functional>
-#include <iostream>
 #include <map>
 #include <memory>
-#include <numbers>
-#include <numeric>
 #include <set>
-#include <span>
-#include <sstream>
 #include <stack>
 #include <string>
-#include <string_view>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
 #include <vector>
 
-
+//位运算包装
 #define BIT(x) (1 << x)
 
 /** ----------------------------类型--------------------------*/
@@ -44,7 +30,7 @@ using u64 = uint64_t;
 using f32 = float;
 using f64 = double;
 
-using size = size_t;
+// using size = size_t;
 
 using Any = std::any;
 
@@ -60,11 +46,11 @@ using USet = std::unordered_set<T>;
 
 // 动态数组容器包装
 template<typename T>
-using DynamicArray = std::vector<T>;
+using Vector = std::vector<T>;
 
 // Map容器包装
-template<typename K, typename V>
-using Map = std::map<K, V>;
+template<typename K, typename V, typename P = std::less<K>, typename A = std::allocator<std::pair<const K, V>>>
+using Map = std::map<K, V, P, A>;
 
 template<typename K, typename V>
 using UMap = std::unordered_map<K, V>;
@@ -132,6 +118,8 @@ using StringStream = std::stringstream;
 //const char*容器包装
 using Str = const char*;
 
+using StrVector = Vector<Str>;
+
 /** ----------------------------函数--------------------------*/
 
 template <typename T>
@@ -154,3 +142,12 @@ template<typename T>
 void HashCombine(size_t& seed, const T& v){
     std::hash<T> hasher;
     seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);}
+
+
+#define PL_ENGINE_NAME "Pulse Engine"
+
+#if PL_PLAT_WINDOWS
+    #define FORCE_INLINE __inline
+#else
+    #defieFORCE_INLINEinline
+#endif

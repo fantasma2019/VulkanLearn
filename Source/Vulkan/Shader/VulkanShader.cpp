@@ -40,14 +40,17 @@ void ShaderLibrary::Add(const SharedPtr<Shader>& shader)
 
 SharedPtr<Shader> ShaderLibrary::Load(const File::Path& path)
 {
+    return MakeShared<Shader>(path);
 }
 
 SharedPtr<Shader> ShaderLibrary::Get(const String& name)
 {
+    return nullptr;
 }
 
 bool ShaderLibrary::IsExists(const String& name) const
 {
+    return false;
 }
 
 void ShaderLibrary::Remove(const String& name)

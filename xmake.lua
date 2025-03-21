@@ -30,26 +30,18 @@ elseif is_plat("macosx") then
     add_defines("PL_WORK_DIR=\"" .. projectdir .. "\"")
 end
 --lib--
-add_requires("spdlog >= 1.15.0", "glm", "glfw >= 3.3.8")
+add_requires("spdlog >= 1.15.0", "glm", "glfw >= 3.3.8", "shaderc", "spirv-cross")
 
 local includedirs =
 {
     "Source/ThirdParty/VulkanSDK/include",
     "Source/ThirdParty",
+    "Source/Vulkan",
 }
 
-local Deps = { "spdlog", "glm", "glfw", }
+local Deps = { "spdlog", "glm", "glfw","shaderc", "spirv-cross" }
 
-target("VulkanRenderer")
-    set_kind("binary")
-    add_includedirs(includedirs)
-    add_packages(Deps)
-
-    set_pcxxheader("Source/Vulkan/vkpch.h")
-
-    add_headerfiles("Source/Vulkan/**.h")
-    add_files("Source/Vulkan/**.cpp")
-    add_files("Source/*.cpp")
+local sample_dirs = os.dirs("Source/Samples/*")
 
 if is_plat("windows") then
     add_defines("VK_USE_PLATFORM_WIN32_KHR")
@@ -65,6 +57,37 @@ elseif is_plat("macosx") then
     add_linkdirs("/usr/local/lib")
     add_links("vulkan")
 end
+
+for _, sampledir in ipairs(sample_dirs) do
+    local target_name = "Sample_" .. path.basename(sampledir)
+    local source_files = path.join(sampledir, "**.cpp")
+    local head_files = path.join(sampledir, "**.h")
+
+    target(target_name)
+        set_kind("binary")
+        add_includedirs(includedirs)
+        add_packages(Deps)
+        set_pcxxheader("Source/Vulkan/vkpch.h")
+        add_headerfiles(head_files)
+        add_files(source_files)
+        add_headerfiles("Source/Vulkan/**.h")
+        add_files("Source/Vulkan/**.cpp")
+        add_defines("TARGET_NAME = " .. target_name)
+
+end
+
+--target("VulkanRenderer")
+--    set_kind("binary")
+--    add_includedirs(includedirs)
+--    add_packages(Deps)
+--
+--    set_pcxxheader("Source/Vulkan/vkpch.h")
+--
+--    add_headerfiles("Source/Vulkan/**.h")
+--    add_files("Source/Vulkan/**.cpp")
+--    add_files("Source/*.cpp")
+
+
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io

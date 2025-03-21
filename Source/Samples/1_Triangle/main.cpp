@@ -11,9 +11,9 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-#include "Vulkan/Core/BaseType.h"
-#include "Vulkan/VulkanWindow.h"
-#include "Vulkan/Core/FileSystem.h"
+#include "Core/BaseType.h"
+#include "Core/FileSystem.h"
+#include "VulkanWindow.h"
 
 #undef NDEBUG
 
@@ -146,8 +146,11 @@ public:
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-        window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan 三角形", nullptr, nullptr);
+#if defined(TARGET_NAME)
+        window = glfwCreateWindow(WIDTH, HEIGHT, "TARGET_NAME", nullptr, nullptr);
+#else
+        window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
+#endif
     }
 
     void InitVulkan() {

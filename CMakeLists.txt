@@ -8,82 +8,115 @@ cmake_policy(SET CMP0091 NEW)
 project(VulkanRenderer LANGUAGES CXX)
 
 # target
-add_executable(VulkanRenderer ""
-        Source/Vulkan/VulkanShader.cpp
-        Source/Vulkan/VulkanShader.h)
-set_target_properties(VulkanRenderer PROPERTIES OUTPUT_NAME "VulkanRenderer")
-set_target_properties(VulkanRenderer PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
-target_precompile_headers(VulkanRenderer PRIVATE
-    $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/build/.gens/VulkanRenderer/windows/x64/debug/Source/Vulkan/vkpch.h>
+add_executable(Sample_1_Triangle "")
+set_target_properties(Sample_1_Triangle PROPERTIES OUTPUT_NAME "Sample_1_Triangle")
+set_target_properties(Sample_1_Triangle PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
+target_precompile_headers(Sample_1_Triangle PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/build/.gens/Sample_1_Triangle/windows/x64/debug/Source/Vulkan/vkpch.h>
 )
-target_include_directories(VulkanRenderer PRIVATE
+target_include_directories(Sample_1_Triangle PRIVATE
     Source/ThirdParty/VulkanSDK/include
     Source/ThirdParty
+    Source/Vulkan
 )
-target_include_directories(VulkanRenderer SYSTEM PRIVATE
+target_include_directories(Sample_1_Triangle SYSTEM PRIVATE
     C:/Users/Administrator/AppData/Local/.xmake/packages/s/spdlog/v1.15.0/1b3bf62e23e242dea2182406def4130f/include
     C:/Users/Administrator/AppData/Local/.xmake/packages/g/glm/1.0.1/a2eb08b6b8134255a6ae43c14de1bf8d/include
     C:/Users/Administrator/AppData/Local/.xmake/packages/g/glfw/3.3.8/5aa939de69104b4e80d43709f8b47425/include
+    C:/Users/Administrator/AppData/Local/.xmake/packages/s/shaderc/v2024.1/8c05fc85f11e445ea93f04d7ba78d40c/include
+    C:/Users/Administrator/AppData/Local/.xmake/packages/g/glslang/1.3.290+0/ef43256204e043b58d227a2f5947c907/include
+    C:/Users/Administrator/AppData/Local/.xmake/packages/s/spirv-tools/1.3.290+0/2f9f75b0754e4891a50e9dcc9a16adc2/include
+    C:/Users/Administrator/AppData/Local/.xmake/packages/s/spirv-headers/1.3.290+0/fb3644a428de478cb606a82914ec9dd6/include
+    C:/Users/Administrator/AppData/Local/.xmake/packages/s/spirv-cross/1.3.268+0/8d1c708e2c9a4d52916c7c4029dc9f7b/include
 )
-target_compile_definitions(VulkanRenderer PRIVATE
+target_compile_definitions(Sample_1_Triangle PRIVATE
     DEBUG
     PL_DEBUG
     WINDOWS
     PL_PLAT_WINDOWS
     PL_WORK_DIR="D:/Code/VulkanLearn"
     VK_USE_PLATFORM_WIN32_KHR
+    TARGET_NAME = Sample_1_Triangle
     GLFW_INCLUDE_NONE
+    ENABLE_HLSL
 )
-target_compile_options(VulkanRenderer PRIVATE
+target_compile_options(Sample_1_Triangle PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:/utf-8>
     $<$<COMPILE_LANGUAGE:CUDA>:-G>
 )
 if(MSVC)
-    target_compile_options(VulkanRenderer PRIVATE /EHsc)
+    target_compile_options(Sample_1_Triangle PRIVATE /EHsc)
 elseif(Clang)
-    target_compile_options(VulkanRenderer PRIVATE -fexceptions)
-    target_compile_options(VulkanRenderer PRIVATE -fcxx-exceptions)
+    target_compile_options(Sample_1_Triangle PRIVATE -fexceptions)
+    target_compile_options(Sample_1_Triangle PRIVATE -fcxx-exceptions)
 elseif(Gcc)
-    target_compile_options(VulkanRenderer PRIVATE -fexceptions)
+    target_compile_options(Sample_1_Triangle PRIVATE -fexceptions)
 endif()
-set_target_properties(VulkanRenderer PROPERTIES CXX_EXTENSIONS OFF)
-target_compile_features(VulkanRenderer PRIVATE cxx_std_20)
+set_target_properties(Sample_1_Triangle PROPERTIES CXX_EXTENSIONS OFF)
+target_compile_features(Sample_1_Triangle PRIVATE cxx_std_20)
 if(MSVC)
-    target_compile_options(VulkanRenderer PRIVATE $<$<CONFIG:Debug>:-Od>)
+    target_compile_options(Sample_1_Triangle PRIVATE $<$<CONFIG:Debug>:-Od>)
 else()
-    target_compile_options(VulkanRenderer PRIVATE -O0)
+    target_compile_options(Sample_1_Triangle PRIVATE -O0)
 endif()
 if(MSVC)
-    target_compile_options(VulkanRenderer PRIVATE -Zi)
+    target_compile_options(Sample_1_Triangle PRIVATE -Zi)
 else()
-    target_compile_options(VulkanRenderer PRIVATE -g)
+    target_compile_options(Sample_1_Triangle PRIVATE -g)
 endif()
 if(MSVC)
-    set_property(TARGET VulkanRenderer PROPERTY
+    set_property(TARGET Sample_1_Triangle PROPERTY
         MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
-target_link_libraries(VulkanRenderer PRIVATE
+target_link_libraries(Sample_1_Triangle PRIVATE
     vulkan-1
     glfw3
     opengl32
+    shaderc_combined
+    glslang
+    MachineIndependent
+    GenericCodeGen
+    OSDependent
+    SPIRV
+    SPVRemapper
+    SPIRV-Tools-link
+    SPIRV-Tools-reduce
+    SPIRV-Tools-opt
+    SPIRV-Tools
+    spirv-cross-c
+    spirv-cross-cpp
+    spirv-cross-reflect
+    spirv-cross-msl
+    spirv-cross-util
+    spirv-cross-hlsl
+    spirv-cross-glsl
+    spirv-cross-core
     user32
     shell32
     gdi32
 )
-target_link_directories(VulkanRenderer PRIVATE
+target_link_directories(Sample_1_Triangle PRIVATE
     Source/ThirdParty/VulkanSDK/Lib
     C:/Users/Administrator/AppData/Local/.xmake/packages/g/glfw/3.3.8/5aa939de69104b4e80d43709f8b47425/lib
+    C:/Users/Administrator/AppData/Local/.xmake/packages/s/shaderc/v2024.1/8c05fc85f11e445ea93f04d7ba78d40c/lib
+    C:/Users/Administrator/AppData/Local/.xmake/packages/g/glslang/1.3.290+0/ef43256204e043b58d227a2f5947c907/lib
+    C:/Users/Administrator/AppData/Local/.xmake/packages/s/spirv-tools/1.3.290+0/2f9f75b0754e4891a50e9dcc9a16adc2/lib
+    C:/Users/Administrator/AppData/Local/.xmake/packages/s/spirv-cross/1.3.268+0/8d1c708e2c9a4d52916c7c4029dc9f7b/lib
 )
-target_sources(VulkanRenderer PRIVATE
+target_sources(Sample_1_Triangle PRIVATE
+    Source/Samples/1_Triangle/main.cpp
+    Source/Vulkan/Shader/ShaderCompiler.cpp
+    Source/Vulkan/Shader/VulkanShader.cpp
     Source/Vulkan/Vulkan.cpp
     Source/Vulkan/VulkanContext.cpp
     Source/Vulkan/VulkanRenderPass.cpp
     Source/Vulkan/VulkanSwapChain.cpp
     Source/Vulkan/VulkanWindow.cpp
-        Source/Samples/1_Triangle/main.cpp
-    Source/stb_image.cpp
     Source/Vulkan/Core/BaseType.h
     Source/Vulkan/Core/FileSystem.h
+    Source/Vulkan/Shader/ShaderCompiler.h
+    Source/Vulkan/Shader/ShaderUtils.h
+    Source/Vulkan/Shader/VulkanShader.h
     Source/Vulkan/vkpch.h
     Source/Vulkan/Vulkan.h
     Source/Vulkan/VulkanContext.h
@@ -92,3 +125,4 @@ target_sources(VulkanRenderer PRIVATE
     Source/Vulkan/VulkanUtils.h
     Source/Vulkan/VulkanWindow.h
 )
+
